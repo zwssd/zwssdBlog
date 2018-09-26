@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+# Create your models here.
 
 # 用来修改admin中显示的app名称,因为admin app 名称是用 str.title()显示的,所以修改str类的title方法就可以实现.
 class string_with_title(str):
@@ -19,11 +20,11 @@ class string_with_title(str):
 
 # Create your models here.
 
-class zwssdUser(AbstractUser):
+class user(AbstractUser):
     img = models.CharField(max_length=200, default='/static/tx/default.jpg',
                            verbose_name=u'头像地址')
     intro = models.CharField(max_length=200, blank=True, null=True,
                              verbose_name=u'简介')
 
     class Meta(AbstractUser.Meta):
-        app_label = string_with_title('zwssdAuth', u"用户管理")
+        app_label = string_with_title('zuser', u"用户管理")

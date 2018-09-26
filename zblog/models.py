@@ -19,6 +19,7 @@ class string_with_title(str):
     __deepcopy__ = lambda self, memodict: self
 
 # Create your models here.
+
 STATUS = {
         0: u'正常',
         1: u'草稿',
@@ -33,26 +34,22 @@ NEWS = {
         3: u'cnBeta',
 }
 
-
 class Nav(models.Model):
     name = models.CharField(max_length=40, verbose_name=u'导航条内容')
-    url = models.CharField(max_length=200, blank=True, null=True,
-                           verbose_name=u'指向地址')
-
-    status = models.IntegerField(default=0, choices=STATUS.items(),
-                                 verbose_name=u'状态')
+    url = models.CharField(max_length=200, blank=True, null=True,verbose_name=u'指向地址')
+    status = models.IntegerField(default=0, choices=STATUS.items(),verbose_name=u'状态')
     create_time = models.DateTimeField(u'创建时间', auto_now_add=True)
 
     class Meta:
         verbose_name_plural = verbose_name = u"导航条"
         ordering = ['-create_time']
-        app_label = string_with_title('blog', u"博客管理")
+        app_label = string_with_title('zblog', u"博客管理")
+
 
     def __unicode__(self):
         return self.name
 
     __str__ = __unicode__
-
 
 class Category(models.Model):
     name = models.CharField(max_length=40, verbose_name=u'名称')
@@ -66,7 +63,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = verbose_name = u'分类'
         ordering = ['rank', '-create_time']
-        app_label = string_with_title('blog', u"博客管理")
+        app_label = string_with_title('zblog', u"博客管理")
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
@@ -79,7 +76,6 @@ class Category(models.Model):
             return '%s' % (self.name)
 
     __str__ = __unicode__
-
 
 class Article(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'作者', on_delete=models.CASCADE)
@@ -113,7 +109,7 @@ class Article(models.Model):
     class Meta:
         verbose_name_plural = verbose_name = u'文章'
         ordering = ['rank', '-is_top', '-pub_time', '-create_time']
-        app_label = string_with_title('blog', u"博客管理")
+        app_label = string_with_title('zblog', u"博客管理")
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
@@ -137,7 +133,7 @@ class Column(models.Model):
     class Meta:
         verbose_name_plural = verbose_name = u'专栏'
         ordering = ['-create_time']
-        app_label = string_with_title('blog', u"博客管理")
+        app_label = string_with_title('zblog', u"博客管理")
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
@@ -160,7 +156,7 @@ class Carousel(models.Model):
     class Meta:
         verbose_name_plural = verbose_name = u'轮播'
         ordering = ['-create_time']
-        app_label = string_with_title('blog', u"博客管理")
+        app_label = string_with_title('zblog', u"博客管理")
 
 
 class News(models.Model):
@@ -175,7 +171,7 @@ class News(models.Model):
     class Meta:
         verbose_name_plural = verbose_name = u'资讯'
         ordering = ['-title']
-        app_label = string_with_title('blog', u"博客管理")
+        app_label = string_with_title('zblog', u"博客管理")
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse

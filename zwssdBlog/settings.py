@@ -37,11 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'zwssdAuth',
-    'blog',
-    'zwssdComments',
-    'zwssdSystem',
+    'zsystem',
+    'zuser',
+    'zblog',
+    'zcomments',
+    'zadmin',
 ]
 
 MIDDLEWARE = [
@@ -82,11 +82,31 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'OPTIONS': {'isolation_level': None}
     }
 }
 
 # 设置user model
-AUTH_USER_MODEL = "zwssdAuth.zwssdUser"
+AUTH_USER_MODEL = "zuser.user"
+
+# cache配置
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+        'options': {
+            'MAX_ENTRIES': 1024,
+        }
+    },
+    'memcache': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        # 'LOCATION': 'unix:/home/billvsme/memcached.sock',
+        'LOCATION': '127.0.0.1:11211',
+        'options': {
+            'MAX_ENTRIES': 1024,
+        }
+    },
+}
 
 
 # Password validation

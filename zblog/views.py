@@ -1,11 +1,12 @@
+# -*- coding: utf-8 -*-
 from django.http import HttpResponse, Http404
 from django.views.generic import View, TemplateView, ListView, DetailView
 from django.conf import settings
 from django.core.cache import caches
 from django.db.models import Q
-from blog.models import Article, Category, Carousel, Column, Nav, News
-from zwssdComments.models import Comment
-from zwssdSystem.models import Link
+from zblog.models import Article, Category, Carousel, Column, Nav, News
+from zcomments.models import comments
+from zsystem.models import Link
 import logging
 
 # 缓存
@@ -69,7 +70,7 @@ class ArticleView(BaseMixin, DetailView):
         if ip not in visited_ips:
             try:
                 article = self.queryset.get(en_title=en_title)
-            except Article.DoesNotExist:
+            except Articles.DoesNotExist:
                 logger.error(u'[ArticleView]访问不存在的文章:[%s]' % en_title)
                 raise Http404
             else:
