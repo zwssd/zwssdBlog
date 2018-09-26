@@ -50,7 +50,7 @@ class BaseMixin(object):
 
 class ArticleView(BaseMixin, DetailView):
     queryset = Article.objects.filter(Q(status=0) | Q(status=1))
-    template_name = 'article.html'
+    template_name = 'zblog/article.html'
     context_object_name = 'article'
     slug_field = 'en_title'
 
@@ -75,7 +75,6 @@ class ArticleView(BaseMixin, DetailView):
                 raise Http404
             else:
                 article.view_times += 1
-                logger.info(u'[ArticleView]访问不存在的文章:[%s]' % en_title)
                 article.save()
                 visited_ips.append(ip)
 
