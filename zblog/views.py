@@ -32,7 +32,7 @@ class BaseMixin(object):
             context['nav_list'] = Nav.objects.filter(status=0)
             # 最新评论
             context['latest_comment_list'] = \
-                Comment.objects.order_by("-create_time")[0:10]
+                comments.objects.order_by("-create_time")[0:10]
             # 友情链接
             context['links'] = Link.objects.order_by('create_time').all()
             colors = ['primary', 'success', 'info', 'warning', 'danger']
@@ -50,7 +50,7 @@ class BaseMixin(object):
 
 class ArticleView(BaseMixin, DetailView):
     queryset = Article.objects.filter(Q(status=0) | Q(status=1))
-    template_name = 'blog/article.html'
+    template_name = 'article.html'
     context_object_name = 'article'
     slug_field = 'en_title'
 
@@ -70,11 +70,12 @@ class ArticleView(BaseMixin, DetailView):
         if ip not in visited_ips:
             try:
                 article = self.queryset.get(en_title=en_title)
-            except Articles.DoesNotExist:
+            except Article.DoesNotExist:
                 logger.error(u'[ArticleView]访问不存在的文章:[%s]' % en_title)
                 raise Http404
             else:
                 article.view_times += 1
+                logger.info(u'[ArticleView]访问不存在的文章:[%s]' % en_title)
                 article.save()
                 visited_ips.append(ip)
 
