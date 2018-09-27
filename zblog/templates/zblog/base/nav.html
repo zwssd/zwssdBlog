@@ -16,20 +16,20 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                 <a class="nav-link" href="{{index_url}}">
-                    <i class="fas fa-home"></i>
-                    首页
+                    <h6><i class="fas fa-home"></i>
+                    首页</h6>
                 </a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="{{all_url}}">
-                    <i class="fas fa-globe-asia"></i>
-                    全部文章
+                    <h6><i class="fas fa-globe-asia"></i>
+                    全部文章</h6>
                 </a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="{{news_url}}">
-                    <i class="fas fa-star"></i>
-                    资讯
+                    <h6><i class="fas fa-star"></i>
+                    资讯</h6>
                 </a>
                 </li>
                 
@@ -37,7 +37,7 @@
                 {% for nav in nav_list%}
                 <li class="nav-item">
                     <a class="nav-link" href="{{nav.url}}">
-                        {{nav.name}}
+                      <h6>{{nav.name}}</h6>
                     </a>
                 </li>
                 {% endfor%}
