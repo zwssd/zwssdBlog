@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+PAGE_NUMBER = 20
+
 
 # Application definition
 
@@ -60,7 +62,7 @@ ROOT_URLCONF = 'zwssdBlog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR+"/templates",],
+        'DIRS': [os.path.join(BASE_DIR, "templates/")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -150,11 +152,3 @@ STATIC_URL = '/static/'
 
 # 添加 img 、 css 和 js 等静态文件目录
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-STATICFILES_DIRS = (
-    ('css', os.path.join(STATIC_ROOT, 'css')),
-    ('img', os.path.join(STATIC_ROOT, 'img')),
-    ('js', os.path.join(STATIC_ROOT, 'js')),
-    ('fonts', os.path.join(STATIC_ROOT, 'fonts')),
-    ('bootstrap', os.path.join(STATIC_ROOT, 'bootstrap')),
-    ('jquery', os.path.join(STATIC_ROOT, 'jquery')),
-)

@@ -14,8 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from zblog.views import (ArticleView)
+from zblog.views import (ArticleView, TagView)
 
 urlpatterns = [
     url(r'^article/(?P<slug>\w+).html$', ArticleView.as_view(), name='article-detail-view'),
+    url(r'^tag/(?P<tag>\w+)/$', TagView.as_view(), name='tag-detail-view'),
 ]
