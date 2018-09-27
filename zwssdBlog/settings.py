@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# 网站标题等内容配置
+WEBSITE_TITLE = u'zwssdBlog'
+WEBSITE_WELCOME = u'欢迎来到zwssdBlog'
+
 PAGE_NUMBER = 20
 
 
