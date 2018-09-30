@@ -1,12 +1,25 @@
 # -*- coding: utf-8 -*-
+from django import template
+from django import forms
 from django.http import HttpResponse, Http404
+from django.shortcuts import render, render_to_response
+from django.template import Context, loader
 from django.views.generic import View, TemplateView, ListView, DetailView
-from django.conf import settings
-from django.core.cache import caches
 from django.db.models import Q
+from django.core.cache import caches
+from django.core.exceptions import PermissionDenied
+from django.contrib import auth
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
+from django.contrib.auth.tokens import default_token_generator
 from zblog.models import Article, Category, Carousel, Column, Nav, News
 from zcomments.models import comments
+from zuser.models import user
 from zsystem.models import Link
+from zuser.forms import VmaigUserCreationForm, VmaigPasswordRestForm
+from django.conf import settings
+import datetime
+import time
+import json
 import logging
 
 # 缓存
@@ -17,6 +30,7 @@ except ImportError as e:
 
 # logger
 logger = logging.getLogger(__name__)
+
 
 class BaseMixin(object):
     def get_context_data(self, *args, **kwargs):
@@ -48,6 +62,22 @@ class BaseMixin(object):
 
         return context
 
+
+class IndexView(BaseMixin, ListView):
+    template_name = 'zblog/index.html'
+    context_object_name = 'article_list'
+    paginate_by = settings.PAGE_NUMBER  # 分页--每页的数目
+
+    def get_context_data(self, **kwargs):
+        # 轮播
+        kwargs['carousel_page_list'] = Carousel.objects.all()
+        return super(IndexView, self).get_context_data(**kwargs)
+
+    def get_queryset(self):
+        article_list = Article.objects.filter(status=0)
+        return article_list
+
+
 class ArticleView(BaseMixin, DetailView):
     queryset = Article.objects.filter(Q(status=0) | Q(status=1))
     template_name = 'zblog/article.html'
@@ -55,7 +85,7 @@ class ArticleView(BaseMixin, DetailView):
     slug_field = 'en_title'
 
     def get(self, request, *args, **kwargs):
-        # 统计文章的访问次数
+        # 统计文章的访问访问次数
         if 'HTTP_X_FORWARDED_FOR' in request.META:
             ip = request.META['HTTP_X_FORWARDED_FOR']
         else:
@@ -83,8 +113,102 @@ class ArticleView(BaseMixin, DetailView):
 
         return super(ArticleView, self).get(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        # 评论
+        en_title = self.kwargs.get('slug', '')
+        kwargs['comment_list'] = \
+            self.queryset.get(en_title=en_title).comments_set.all()
+        return super(ArticleView, self).get_context_data(**kwargs)
+
+
+class AllView(BaseMixin, ListView):
+    template_name = 'zblog/all.html'
+    context_object_name = 'article_list'
+
+    def get_context_data(self, **kwargs):
+        kwargs['category_list'] = Category.objects.all()
+        kwargs['PAGE_NUM'] = settings.PAGE_NUMBER
+        return super(AllView, self).get_context_data(**kwargs)
+
+    def get_queryset(self):
+        article_list = Article.objects.filter(
+            status=0
+        ).order_by("-pub_time")[0:settings.PAGE_NUM]
+        return article_list
+
+    def post(self, request, *args, **kwargs):
+        val = self.request.POST.get("val", "")
+        sort = self.request.POST.get("sort", "time")
+        start = self.request.POST.get("start", 0)
+        end = self.request.POST.get("end", settings.PAGE_NUM)
+
+        start = int(start)
+        end = int(end)
+
+        if sort == "time":
+            sort = "-pub_time"
+        elif sort == "recommend":
+            sort = "-view_times"
+        else:
+            sort = "-pub_time"
+
+        if val == "all":
+            article_list = \
+                Article.objects.filter(status=0).order_by(sort)[start:end+1]
+        else:
+            try:
+                article_list = Category.objects.get(
+                                   name=val
+                               ).article_set.filter(
+                                   status=0
+                               ).order_by(sort)[start:end+1]
+            except Category.DoesNotExist:
+                logger.error(u'[AllView]此分类不存在:[%s]' % val)
+                raise PermissionDenied
+
+        isend = len(article_list) != (end-start+1)
+
+        article_list = article_list[0:end-start]
+
+        html = ""
+        for article in article_list:
+            html += template.loader.get_template(
+                        'zblog/include/all_post.html'
+                    ).render(template.Context({'post': article}))
+
+        mydict = {"html": html, "isend": isend}
+        return HttpResponse(
+            json.dumps(mydict),
+            content_type="application/json"
+        )
+
+
+class SearchView(BaseMixin, ListView):
+    template_name = 'zblog/search.html'
+    context_object_name = 'article_list'
+    paginate_by = settings.PAGE_NUMBER
+
+    def get_context_data(self, **kwargs):
+        kwargs['s'] = self.request.GET.get('s', '')
+        return super(SearchView, self).get_context_data(**kwargs)
+
+    def get_queryset(self):
+        # 获取搜索的关键字
+        s = self.request.GET.get('s', '')
+        # 在文章的标题,summary和tags中搜索关键字
+        article_list = Article.objects.only(
+            'title', 'summary', 'tags'
+        ).filter(
+            Q(title__icontains=s) |
+            Q(summary__icontains=s) |
+            Q(tags__icontains=s),
+            status=0
+        )
+        return article_list
+
+
 class TagView(BaseMixin, ListView):
-    template_name = 'blog/tag.html'
+    template_name = 'zblog/tag.html'
     context_object_name = 'article_list'
     paginate_by = settings.PAGE_NUMBER
 
@@ -94,3 +218,120 @@ class TagView(BaseMixin, ListView):
             Article.objects.only('tags').filter(tags__icontains=tag, status=0)
 
         return article_list
+
+
+class CategoryView(BaseMixin, ListView):
+    template_name = 'zblog/category.html'
+    context_object_name = 'article_list'
+    paginate_by = settings.PAGE_NUMBER
+
+    def get_queryset(self):
+        category = self.kwargs.get('category', '')
+        try:
+            article_list = \
+                Category.objects.get(name=category).article_set.all()
+        except Category.DoesNotExist:
+            logger.error(u'[CategoryView]此分类不存在:[%s]' % category)
+            raise Http404
+
+        return article_list
+
+
+class UserView(BaseMixin, TemplateView):
+    template_name = 'zblog/user.html'
+
+    def get(self, request, *args, **kwargs):
+
+        if not request.user.is_authenticated():
+            logger.error(u'[UserView]用户未登陆')
+            return render(request, 'blog/login.html')
+
+        slug = self.kwargs.get('slug')
+
+        if slug == 'changetx':
+            self.template_name = 'blog/user_changetx.html'
+        elif slug == 'changepassword':
+            self.template_name = 'blog/user_changepassword.html'
+        elif slug == 'changeinfo':
+            self.template_name = 'blog/user_changeinfo.html'
+        elif slug == 'message':
+            self.template_name = 'blog/user_message.html'
+        elif slug == 'notification':
+            self.template_name = 'blog/user_notification.html'
+
+        return super(UserView, self).get(request, *args, **kwargs)
+
+        logger.error(u'[UserView]不存在此接口')
+        raise Http404
+
+    def get_context_data(self, **kwargs):
+        context = super(UserView, self).get_context_data(**kwargs)
+
+        slug = self.kwargs.get('slug')
+
+        if slug == 'notification':
+            context['notifications'] = \
+                self.request.user.to_user_notification_set.order_by(
+                    '-create_time'
+                ).all()
+
+        return context
+
+
+class ColumnView(BaseMixin, ListView):
+    queryset = Column.objects.all()
+    template_name = 'zblog/column.html'
+    context_object_name = 'article_list'
+    paginate_by = settings.PAGE_NUMBER
+
+    def get_context_data(self, **kwargs):
+        column = self.kwargs.get('column', '')
+        try:
+            kwargs['column'] = Column.objects.get(name=column)
+        except Column.DoesNotExist:
+            logger.error(u'[ColumnView]访问专栏不存在: [%s]' % column)
+            raise Http404
+
+        return super(ColumnView, self).get_context_data(**kwargs)
+
+    def get_queryset(self):
+        column = self.kwargs.get('column', '')
+        try:
+            article_list = Column.objects.get(name=column).article.all()
+        except Column.DoesNotExist:
+            logger.error(u'[ColumnView]访问专栏不存在: [%s]' % column)
+            raise Http404
+
+        return article_list
+
+
+class NewsView(BaseMixin, TemplateView):
+    template_name = 'zblog/news.html'
+
+    def get_context_data(self, **kwargs):
+        timeblocks = []
+
+        # 获取开始和终止的日期
+        start_day = self.request.GET.get("start", "0")
+        end_day = self.request.GET.get("end", "6")
+        start_day = int(start_day)
+        end_day = int(end_day)
+
+        start_date = datetime.datetime.now()
+
+        # 获取url中时间断的资讯
+        for x in range(start_day, end_day+1):
+            date = start_date - datetime.timedelta(x)
+            news_list = News.objects.filter(
+                pub_time__year=date.year,
+                pub_time__month=date.month,
+                pub_time__day=date.day
+            )
+
+            if news_list:
+                timeblocks.append(news_list)
+
+        kwargs['timeblocks'] = timeblocks
+        kwargs['active'] = start_day/7  # li中那个显示active
+
+        return super(NewsView, self).get_context_data(**kwargs)
