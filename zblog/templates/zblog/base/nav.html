@@ -6,52 +6,52 @@
 {% url 'user-view' 'changepassword' as changepassword_url%}
 {% url 'user-view' 'notification' as notification_url%}
 
-<header id="vmaig-header" class="navbar navbar-expand-md bg-dark navbar-dark fixed-top navbar navbar-vmaig">
+<header id="vmaig-header" class="navbar navbar-expand-md bg-dark navbar-dark fixed-top navbar-vmaig">
     <div class="container">
             <div class="navbar-brand">{{website_title}}</div>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#vmaig-navbar-collapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-        <div class="collapse navbar-collapse" id="vmaig-navbar-collapse">
+        <nav class="collapse navbar-collapse" id="vmaig-navbar-collapse">
             <ul class="navbar-nav">
                 <li class="nav-item">
                 <a class="nav-link" href="{{index_url}}">
-                    <h6><i class="fas fa-home"></i>
-                    首页</h6>
+                    <i class="fas fa-home"></i>
+                    首页
                 </a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="{{all_url}}">
-                    <h6><i class="fas fa-globe-asia"></i>
-                    全部文章</h6>
+                    <i class="fas fa-globe-asia"></i>
+                    全部文章
                 </a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="{{news_url}}">
-                    <h6><i class="fas fa-star"></i>
-                    资讯</h6>
+                    <i class="fas fa-star"></i>
+                    资讯
                 </a>
                 </li>
-                
+
                 {% if nav_list%}
                 {% for nav in nav_list%}
                 <li class="nav-item">
                     <a class="nav-link" href="{{nav.url}}">
-                      <h6>{{nav.name}}</h6>
+                      {{nav.name}}
                     </a>
                 </li>
                 {% endfor%}
                 {% endif%}
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav ml-auto">
                 {% if not user.is_authenticated %}
                 <li>
-                    <a  id="nav-login" data-toggle="modal" data-target="#login-modal"  style="padding-right:0px;cursor:pointer;">
+                    <a id="nav-login" data-toggle="modal" data-target="#login-modal" class="nav-link" href="#">
                     登陆
                     </a>
                 </li>
                 <li>
-                    <a  id="nav-register" data-toggle="modal" data-target="#register-modal" style="padding-right:0px;cursor:pointer">
+                    <a  id="nav-register" data-toggle="modal" data-target="#register-modal" class="nav-link" href="#">
                     注册
                     </a>
                 </li>
@@ -81,41 +81,37 @@
                 </li>
                 {% endif %}
             </ul>
-
-            <!--
-            <span class="navbar-text navbar-right">----分享Geek生活</span>
-            -->
-        </div>
+        </nav>
     </div>
 </header>
 
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" 
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog"
     aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" 
-                    data-dismiss="modal" aria-hidden="true">
+                <h5 class="modal-title" id="myModalLabel">
+                   用户登陆
+                </h5>
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
                     &times;
                 </button>
-                <h4 class="modal-title" id="myModalLabel">
-                   用户登陆
-                </h4>
             </div>
             <div class="modal-body clearfix">
-                <form id="login-form" class="form-horizontal" method="post" role="form"> 
+                <form id="login-form" method="post" role="form">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="login-username" class="col-sm-2 control-label">用户名</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" id="login-username" 
+                        <label for="login-username">用户名</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="login-username"
                             placeholder="请输入用户名">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="login-password" class="col-sm-2 control-label">密码</label>
-                        <div class="col-sm-6">
-                            <input type="password" class="form-control" id="login-password" 
+                        <label for="login-password">密码</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="login-password"
                             placeholder="请输入密码">
                         </div>
                     </div>
@@ -129,12 +125,12 @@
     </div><!-- /.modal -->
 </div>
 
-<div class="modal fade" id="register-modal" tabindex="-1" role="dialog" 
+<div class="modal fade" id="register-modal" tabindex="-1" role="dialog"
     aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" 
+                <button type="button" class="close"
                     data-dismiss="modal" aria-hidden="true">
                     &times;
                 </button>
@@ -144,26 +140,26 @@
             </div>
 
             <div class="modal-body clearfix">
-                <form id="register-form" class="form-horizontal" method="post" role="form"> 
+                <form id="register-form" class="form-horizontal" method="post" role="form">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="register-username" class="col-sm-2 control-label">用户名</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="register-username" 
+                            <input type="text" class="form-control" id="register-username"
                             placeholder="请输入用户名">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="register-email" class="col-sm-2 control-label">email</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="register-email" 
+                            <input type="text" class="form-control" id="register-email"
                             placeholder="请输入email">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="register-password-1" class="col-sm-2 control-label">密码</label>
                         <div class="col-sm-6">
-                            <input type="password" class="form-control" id="register-password-1" 
+                            <input type="password" class="form-control" id="register-password-1"
                             placeholder="请输入密码">
                         </div>
                     </div>
@@ -171,12 +167,12 @@
                     <div class="form-group">
                         <label for="register-password-2" class="col-sm-2 control-label">确认密码</label>
                         <div class="col-sm-6">
-                            <input type="password" class="form-control" id="register-password-2" 
+                            <input type="password" class="form-control" id="register-password-2"
                             placeholder="请再次输入密码">
                         </div>
                     </div>
 
-                    
+
 
                     <button id="register-button" type="submit" class="btn btn-primary pull-right">
                         注册
@@ -194,12 +190,12 @@
             url:"/usercontrol/login",
             data:{"username":$("#login-username").val(),"password":$("#login-password").val()},
             beforeSend:function(xhr){
-                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));  
+                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
             },
             success:function(data,textStatus){
                 var errors = data["errors"];
                 if(errors.length==0){
-                    location.reload(); 
+                    location.reload();
                 }
                 else{
                     //alert(errors);
@@ -217,8 +213,8 @@
 
         });
         return false;
-    }); 
-    
+    });
+
     $("#login-button").click(function(){
         $("#login-modal .alert").remove();
     });
@@ -232,12 +228,12 @@
                   "password1":$("#register-password-1").val(),"password2":$("#register-password-2").val(),},
             dataType:'json',
             beforeSend:function(xhr){
-                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));  
+                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
             },
             success:function(data,textStatus){
                 var errors = data["errors"];
                 if(errors.length==0){
-                    location.reload(); 
+                    location.reload();
                 }
                 else{
                     //alert(errors);
@@ -248,7 +244,7 @@
                     html += "</div>";
                     $("#register-modal .modal-header").after(html);
                 }
-                
+
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
                 alert(XMLHttpRequest.responseText);
@@ -266,10 +262,10 @@
             type:"POST",
             url:"/usercontrol/logout",
             beforeSend:function(xhr){
-                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));  
+                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
             },
             success:function(data,textStatus){
-                location.replace("/"); 
+                location.replace("/");
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
                 alert(XMLHttpRequest.responseText);
