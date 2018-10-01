@@ -37,19 +37,17 @@
                 <a class="visible-xs-inline-block">
                     <span class="label label-vmaig-2 btn ">...</span>
                 </a>
- 
+
             </div>
 
         </div>
     </div>
-    <div class="post-content">
+    <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <figure class="thumbnail">
                     <a href="{{article_url}}">
-                        <img src="{{post.img}}"  height="300" alt="">
+                        <img class="img-thumbnail" src="{{post.img}}"  alt="">
                     </a>
-                </figure>
             </div>
             <div class="col-sm-8">
                 <p>
@@ -60,8 +58,7 @@
                     ...
                 {% endif %}
                 </p>
-                <a type="button" class="btn btn-vmaig pull-right hidden-xs"  href="{{article_url}}">阅读全文</a>
-
+                <a type="button" class="btn btn-vmaig float-right hidden-xs"  href="{{article_url}}">阅读全文</a>
             </div>
         </div>
     </div>
