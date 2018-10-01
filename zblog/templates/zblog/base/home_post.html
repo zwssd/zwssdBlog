@@ -1,12 +1,12 @@
 {% url 'category-detail-view' post.category.name as category_url %}
 {% url 'article-detail-view' post.en_title as article_url %}
 
-<div class="home-post well clearfix">
-    <div class="post-title underline clearfix">
+<div class="home-post card clearfix">
+    <div class="post-title card-header underline clearfix">
         <a href="{{category_url}}">
             <div class="pre-cat">
                 <div class="pre-catinner btn">
-                    {{post.category}}
+                    {{post.category.name}}
                 </div>
                 <div class="pre-catarrow">
                 </div>
@@ -17,15 +17,15 @@
         </h1>
         <div class="post-info">
             <span>
-                <span class="glyphicon glyphicon-calendar"></span>
+                <a class="fas fa-calendar"></a>
                 {{post.pub_time|date:"Y-m-d" }}
             </span>
             <span>
-                <span class="glyphicon glyphicon-comment"></span>
+                <a class="fas fa-comment"></a>
                 {{post.comment_set.all | length}}
             </span>
             <span>
-                <span class="glyphicon glyphicon-eye-open"></span>
+                <a class="fas fa-eye"></a>
                 {{post.view_times}}
             </span>
             <div class="post-tags">
