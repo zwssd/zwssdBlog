@@ -172,7 +172,7 @@ footer {
     background-color:#D94600;
 }
 
-.panel-vmaig span.btn{
+.panel-vmaig span.zbtn{
     padding:0px;
     margin-right:5px;
 }
@@ -444,7 +444,6 @@ footer {
 /*首页右侧的 热门文章面板样式*/
 .hotest-post-title{
     display:inline-block;
-    overflow:hidden;
     width:80%;
     white-space:nowrap;
     text-overflow:ellipsis;

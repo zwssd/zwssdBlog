@@ -1,21 +1,16 @@
 
-<div id="vmaig-hotest-posts">
-    <div class="panel panel-vmaig">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <span class="glyphicon glyphicon-flag"></span>
-                热门文章
-                <span class="glyphicon glyphicon-remove btn panel-close pull-right"></span>
-                <span class="glyphicon glyphicon-chevron-up btn panel-collapse pull-right"  data-toggle="collapse" data-target="#hotest-post-list"></span>
-            </h3>
-        </div>
-        <ul id="hotest-post-list" class="list-group collapse in">
-            {% for article in hot_article_list %}
-                <li class="list-group-item">
-                <span class="hotest-post-title"><a href="{% url 'article-detail-view' article.en_title %}">{{article.title}}</a> </span>
-                <span class="badge">{{article.view_times}}</span>
-                </li>
-            {% endfor %}
-        </ul>
+  <div class="card">
+    <div class="card-header bg-dark text-white">
+      <i class="fas fa-flag"></i>热门文章
+    <i class="fas fa-window-close float-right m-1 zbtn panel-close"></i>
+    <i class="fas fa-chevron-up float-right m-1 zbtn panel-collapse" data-toggle="collapse" data-target="#hotest-post-list"></i>
+  </div>
+    <div id="hotest-post-list" class="list-group collapse in">
+      {% for article in hot_article_list %}
+          <li class="list-group-item">
+          <span class="hotest-post-title"><a href="{% url 'article-detail-view' article.en_title %}">{{article.title}}</a> </span>
+          <span class="badge badge-info float-right">{{article.view_times}}</span>
+          </li>
+      {% endfor %}
     </div>
-</div>
+  </div>
