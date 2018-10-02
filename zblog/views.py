@@ -8,6 +8,7 @@ from django.views.generic import View, TemplateView, ListView, DetailView
 from django.db.models import Q
 from django.core.cache import caches
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 from django.contrib import auth
 from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.contrib.auth.tokens import default_token_generator
@@ -66,7 +67,7 @@ class BaseMixin(object):
 class IndexView(BaseMixin, ListView):
     template_name = 'zblog/index.html'
     context_object_name = 'article_list'
-    paginate_by = settings.PAGE_NUMBER  # 分页--每页的数目
+    paginate_by = settings.PAGE_NUMBER
 
     def get_context_data(self, **kwargs):
         # 轮播
@@ -133,14 +134,14 @@ class AllView(BaseMixin, ListView):
     def get_queryset(self):
         article_list = Article.objects.filter(
             status=0
-        ).order_by("-pub_time")[0:settings.PAGE_NUM]
+        ).order_by("-pub_time")[0:settings.PAGE_NUMBER]
         return article_list
 
     def post(self, request, *args, **kwargs):
         val = self.request.POST.get("val", "")
         sort = self.request.POST.get("sort", "time")
         start = self.request.POST.get("start", 0)
-        end = self.request.POST.get("end", settings.PAGE_NUM)
+        end = self.request.POST.get("end", settings.PAGE_NUMBER)
 
         start = int(start)
         end = int(end)

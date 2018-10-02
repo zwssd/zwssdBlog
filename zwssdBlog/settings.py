@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 WEBSITE_TITLE = u'zwssdBlog'
 WEBSITE_WELCOME = u'欢迎来到zwssdBlog'
 
-PAGE_NUMBER = 20
+PAGE_NUMBER = 2
 
 
 # Application definition
