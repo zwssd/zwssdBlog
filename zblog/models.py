@@ -53,7 +53,7 @@ class Nav(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=40, verbose_name=u'名称')
-    parent = models.ForeignKey('self', default=None, blank=True, null=True, verbose_name=u'上级分类', on_delete=models.CASCADE)
+    parent = models.ForeignKey('self', default=None, blank=True, null=True, verbose_name=u'上级分类', on_delete=models.DO_NOTHING)
     rank = models.IntegerField(default=0, verbose_name=u'排序')
     status = models.IntegerField(default=0, choices=STATUS.items(),
                                  verbose_name=u'状态')
@@ -69,17 +69,15 @@ class Category(models.Model):
         from django.core.urlresolvers import reverse
         return reverse('category-detail-view', args=(self.name,))
 
-    def __unicode__(self):
+    '''def __unicode__(self):
         if self.parent:
             return '%s-->%s' % (self.parent, self.name)
         else:
             return '%s' % (self.name)
 
-    __str__ = __unicode__
+    __str__ = __unicode__'''
 
 class Article(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'作者', on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, verbose_name=u'分类', on_delete=models.CASCADE)
     title = models.CharField(max_length=100, verbose_name=u'标题')
     en_title = models.CharField(max_length=100, verbose_name=u'英文标题')
     img = models.CharField(max_length=200,
@@ -98,6 +96,9 @@ class Article(models.Model):
     pub_time = models.DateTimeField(default=False, verbose_name=u'发布时间')
     create_time = models.DateTimeField(u'创建时间', auto_now_add=True)
     update_time = models.DateTimeField(u'更新时间', auto_now=True)
+
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'作者', on_delete=models.DO_NOTHING)
+    category = models.ForeignKey(Category, verbose_name=u'分类', on_delete=models.DO_NOTHING)
 
     def get_tags(self):
         tags_list = self.tags.split(',')

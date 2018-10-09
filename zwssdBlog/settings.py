@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'zuser',
     'zblog',
     'zcomments',
-    'zadmin',
 ]
 
 MIDDLEWARE = [

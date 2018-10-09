@@ -25,10 +25,10 @@ class Message(models.Model):
     from_user = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   default=None, blank=True, null=True,
                                   related_name='from_user_notification_set',
-                                  verbose_name=u'发送者', on_delete=models.CASCADE)
+                                  verbose_name=u'发送者', on_delete=models.DO_NOTHING)
     to_user = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 related_name='to_user_notification_set',
-                                verbose_name=u'接收者', on_delete=models.CASCADE)
+                                verbose_name=u'接收者', on_delete=models.DO_NOTHING)
 
     class Meta:
         verbose_name_plural = verbose_name = u'消息'

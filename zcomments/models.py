@@ -24,9 +24,9 @@ class comments(models.Model):
     text = models.TextField(verbose_name=u'评论内容')
     create_time = models.DateTimeField(u'创建时间', auto_now_add=True)
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'用户', on_delete=models.CASCADE)
-    article = models.ForeignKey('zblog.Article', verbose_name=u'文章', on_delete=models.CASCADE)
-    parent = models.ForeignKey('self', default=None, blank=True, null=True, verbose_name=u'引用', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'用户', on_delete=models.DO_NOTHING)
+    article = models.ForeignKey('zblog.Article', verbose_name=u'文章', on_delete=models.DO_NOTHING)
+    parent = models.ForeignKey('self', default=None, blank=True, null=True, verbose_name=u'引用', on_delete=models.DO_NOTHING)
 
     class Meta:
         verbose_name_plural = verbose_name = u'评论'
