@@ -1,11 +1,10 @@
-
   <div class="card">
     <div class="card-header bg-dark text-white">
       <i class="fas fa-flag"></i>热门文章
     <i class="fas fa-window-close float-right m-1 zbtn panel-close"></i>
     <i class="fas fa-chevron-up float-right m-1 zbtn panel-collapse" data-toggle="collapse" data-target="#hotest-post-list"></i>
   </div>
-    <div id="hotest-post-list" class="list-group collapse in">
+    <div id="hotest-post-list" class="list-group collapse show">
       {% for article in hot_article_list %}
           <li class="list-group-item">
           <span class="hotest-post-title"><a href="{% url 'article-detail-view' article.en_title %}">{{article.title}}</a> </span>

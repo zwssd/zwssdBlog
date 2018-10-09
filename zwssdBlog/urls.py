@@ -19,7 +19,7 @@ from zwssdBlog.view import output
 from django.conf.urls import include, url
 
 urlpatterns = [
-    path('zadmin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('output/', output),
     url(r'', include('zblog.urls')),
 ]
