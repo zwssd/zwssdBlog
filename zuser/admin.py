@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
-from zuser.models import user
+from zuser.models import User
 from zuser.forms import VmaigUserCreationForm
 
 
@@ -23,4 +23,4 @@ class VmaigUserAdmin(UserAdmin):
     )
 
 admin.site.unregister(Group)
-admin.site.register(user, VmaigUserAdmin)
+admin.site.register(User, VmaigUserAdmin)

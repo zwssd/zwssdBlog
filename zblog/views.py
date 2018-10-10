@@ -14,7 +14,7 @@ from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.contrib.auth.tokens import default_token_generator
 from zblog.models import Article, Category, Carousel, Column, Nav, News
 from zcomments.models import comments
-from zuser.models import user
+from zuser.models import User
 from zsystem.models import Link
 from zuser.forms import VmaigUserCreationForm, VmaigPasswordRestForm
 from django.conf import settings

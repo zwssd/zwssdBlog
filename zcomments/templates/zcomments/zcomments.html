@@ -68,6 +68,7 @@
                 xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));  
             },
             success:function(data,textStatus){
+                alert("评论成功！");
                 $("#comment").val("");
                 $(".vmaig-comment ul").prepend(data);
             },

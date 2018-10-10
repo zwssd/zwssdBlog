@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from zuser.models import user
+from zuser.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.core.mail import send_mail
@@ -49,7 +49,7 @@ class VmaigUserCreationForm(forms.ModelForm):
     )
 
     class Meta:
-        model = user
+        model = User
         fields = ("username", "email")
 
     def clean_username(self):
@@ -57,8 +57,8 @@ class VmaigUserCreationForm(forms.ModelForm):
         # but it sets a nicer error message than the ORM. See #13147.
         username = self.cleaned_data["username"]
         try:
-            user._default_manager.get(username=username)
-        except user.DoesNotExist:
+            User._default_manager.get(username=username)
+        except User.DoesNotExist:
             return username
         raise forms.ValidationError(
             self.error_messages["duplicate_username"]
@@ -78,8 +78,8 @@ class VmaigUserCreationForm(forms.ModelForm):
 
         # 判断是这个email 用户是否存在
         try:
-            user._default_manager.get(email=email)
-        except user.DoesNotExist:
+            User._default_manager.get(email=email)
+        except User.DoesNotExist:
             return email
         raise forms.ValidationError(
             self.error_messages["duplicate_email"]

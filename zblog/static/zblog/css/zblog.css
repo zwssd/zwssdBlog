@@ -29,7 +29,7 @@ body,html {
 footer {
     position: absolute;
     bottom: 0;
-    height: 30px;
+    height: 52px;
     width: 100%;
     background:#ccc;
 }
@@ -71,7 +71,7 @@ a:hover{
 }
 
 footer {
-    padding: 40px 0;
+    /*padding: 40px 0;*/
     color: #fff;
     text-align: center;
     background-color: #222;

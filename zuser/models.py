@@ -20,8 +20,8 @@ class string_with_title(str):
 
 # Create your models here.
 
-class user(AbstractUser):
-    img = models.CharField(max_length=200, default='/static/tx/default.jpg',
+class User(AbstractUser):
+    img = models.CharField(max_length=200, default='/static/zuser/tx/default.jpg',
                            verbose_name=u'头像地址')
     intro = models.CharField(max_length=200, blank=True, null=True,
                              verbose_name=u'简介')
