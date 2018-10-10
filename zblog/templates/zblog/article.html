@@ -6,8 +6,15 @@
 
 <div class="row">
     <div id="vmaig-content" class="col-md-8 col-lg-9">
-        <div id="article-page" class="well">
+        <div id="article-page" class="card card-body bg-light">
 
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{{category_url}}">{{article.category.name}}</a></li>
+                <li class="breadcrumb-item"><a><i class="fas fa-calendar-alt"></i> {{article.pub_time|date:"Y-m-d"}}</a></li>
+                <li class="breadcrumb-item"><a><i class="fas fa-eye"></i>{{article.view_times}}</a></li>
+                <li class="breadcrumb-item"><i class="fas fa-user-alt"></i> {{article.author}}</li>
+            </ol>
 
             <div id="article">
                 <div class="article-title">
