@@ -1,7 +1,7 @@
 $(function(){
 /*widgest 中卷起的js*/
     $('.panel-close').click(function(){
-        $(this).parent().parent().parent().hide(300);
+        $(this).parent().parent().hide(300);
     });
 
     $('.collapse').on('hide.bs.collapse',function(){
