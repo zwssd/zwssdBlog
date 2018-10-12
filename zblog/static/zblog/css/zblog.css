@@ -26,14 +26,6 @@ body,html {
     padding: 10px;
     padding-bottom: 30px;  /* 不至被footer盖住 */
 }
-footer {
-    position: absolute;
-    bottom: 0;
-    height: 53px;
-    width: 100%;
-    background:#ccc;
-}
-
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family:"Microsoft YaHei","WenQuanYi Micro Hei","tohoma,sans-serif";
@@ -71,9 +63,7 @@ a:hover{
 }
 
 footer {
-    /*padding: 40px 0;*/
     color: #fff;
-    text-align: center;
     background-color: #222;
 }
 
