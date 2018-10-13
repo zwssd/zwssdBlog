@@ -62,20 +62,20 @@
                         &nbsp;{{user.username}}
                         <span class="badge" style="background-color: #D94600;">{{notification_count}}</span>
                 </a>
-                <ul class="dropdown-menu navbar-right">
-                    <li><a href="{{changetx_url}}">
-                        <span class="glyphicon glyphicon-user"></span>
+                <ul class="dropdown-menu justify-content-end">
+                    <li><a class="dropdown-item" href="{{changetx_url}}">
+                        <i class="fas fa-user-alt"></i>
                         更改头像</a></li>
-                    <li><a href="{{changepassword_url}}">
-                        <span class="glyphicon glyphicon-lock"></span>
+                    <li><a class="dropdown-item"  href="{{changepassword_url}}">
+                        <i class="fas fa-lock"></i>
                         更改密码</a></li>
-                    <li><a href="{{notification_url}}">
-                        <span class="glyphicon glyphicon-envelope"></span>
+                    <li><a class="dropdown-item" href="{{notification_url}}">
+                        <i class="fas fa-envelope"></i>
                         消息
                         <span class="badge" style="background-color: #D94600;">{{notification_count}}</span>
                         </a></li>
-                    <li><a id="logout" href="javascript:;">
-                        <span class="glyphicon glyphicon-log-out"></span>
+                    <li><a class="dropdown-item" id="logout" href="javascript:;">
+                        <i class="fas fa-sign-out-alt"></i>
                         退出</a></li>
                 </ul>
                 </li>

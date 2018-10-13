@@ -1,0 +1,38 @@
+{%extends "zblog/base/base.html"%}
+
+{%block main%}
+<div class="row">
+    <div id="vmaig-content" class="col-md-8 col-lg-9">
+        <div class="well">
+            {% autoescape off%}
+            {{ column.summary}}
+            {% endautoescape %}
+        </div>
+
+        <div class="well">
+
+            {% if article_list %}
+            {% with post_list=article_list %}
+            {% for post in post_list %} 
+                {% include "zblog/base/category_post.html"%}
+            {% endfor %}
+            {% endwith %}
+            {% endif %}
+
+        </div>
+
+        <!--分页 -->
+        {% if page_obj%}
+        {% include "zblog/base/pagination.html"%}
+        {% endif %}
+
+    </div>
+    <div id="vmaig-side" class="col-md-4 col-lg-3 hidden-xs">
+
+        {% include "zblog/fragment/tags_cloud.html"%}
+        {% include "zblog/fragment/search.html"%}
+        {% include "zblog/fragment/hotest_posts.html"%}
+        {% include "zcomments/latest_comments.html"%}
+    </div>
+</div>
+{% endblock %}

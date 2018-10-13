@@ -243,22 +243,22 @@ class UserView(BaseMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
 
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             logger.error(u'[UserView]用户未登陆')
-            return render(request, 'blog/login.html')
+            return render(request, 'zblog/login.html')
 
         slug = self.kwargs.get('slug')
 
         if slug == 'changetx':
-            self.template_name = 'blog/user_changetx.html'
+            self.template_name = 'zuser/changetx.html'
         elif slug == 'changepassword':
-            self.template_name = 'blog/user_changepassword.html'
+            self.template_name = 'zuser/changepassword.html'
         elif slug == 'changeinfo':
-            self.template_name = 'blog/user_changeinfo.html'
+            self.template_name = 'zblog/user_changeinfo.html'
         elif slug == 'message':
-            self.template_name = 'blog/user_message.html'
+            self.template_name = 'zblog/user_message.html'
         elif slug == 'notification':
-            self.template_name = 'blog/user_notification.html'
+            self.template_name = 'zblog/user_notification.html'
 
         return super(UserView, self).get(request, *args, **kwargs)
 
