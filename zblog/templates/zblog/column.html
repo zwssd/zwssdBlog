@@ -3,13 +3,13 @@
 {%block main%}
 <div class="row">
     <div id="vmaig-content" class="col-md-8 col-lg-9">
-        <div class="well">
+        <div class="card card-body bg-light clearfix mb-4">
             {% autoescape off%}
             {{ column.summary}}
             {% endautoescape %}
         </div>
 
-        <div class="well">
+        <div class="card card-body bg-light clearfix mb-4">
 
             {% if article_list %}
             {% with post_list=article_list %}
