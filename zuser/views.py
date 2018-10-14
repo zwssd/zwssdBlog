@@ -74,7 +74,7 @@ class UserControl(View):
         )
 
     def logout(self, request):
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             logger.error(u'[UserControl]用户未登陆')
             raise PermissionDenied
         else:
@@ -132,7 +132,7 @@ class UserControl(View):
         )
 
     def changepassword(self, request):
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             logger.error(u'[UserControl]用户未登陆')
             raise PermissionDenied
 
@@ -228,7 +228,7 @@ class UserControl(View):
             )
 
     def changetx(self, request):
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             logger.error(u'[UserControl]用户未登陆')
             raise PermissionDenied
 
@@ -322,7 +322,7 @@ class UserControl(View):
             return HttpResponse(u"上传头像成功!\n(注意有10分钟缓存)")
 
     def notification(self, request):
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             logger.error(u'[UserControl]用户未登陆')
             raise PermissionDenied
 

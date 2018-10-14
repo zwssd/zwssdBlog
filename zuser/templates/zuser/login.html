@@ -1,3 +1,6 @@
+{%extends "zuser/user_left.html"%}
+
+{%block user_right%}
 {% url 'forgetpassword-view' as forgetpassword_url %}
 {% url 'register-view' as register_url %}
 
@@ -63,3 +66,4 @@
         return false;
     }); 
 </script>
+{% endblock %}

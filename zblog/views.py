@@ -253,12 +253,8 @@ class UserView(BaseMixin, TemplateView):
             self.template_name = 'zuser/changetx.html'
         elif slug == 'changepassword':
             self.template_name = 'zuser/changepassword.html'
-        elif slug == 'changeinfo':
-            self.template_name = 'zblog/user_changeinfo.html'
-        elif slug == 'message':
-            self.template_name = 'zblog/user_message.html'
         elif slug == 'notification':
-            self.template_name = 'zblog/user_notification.html'
+            self.template_name = 'zuser/notification.html'
 
         return super(UserView, self).get(request, *args, **kwargs)
 
