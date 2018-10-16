@@ -23,7 +23,7 @@
                 <div class="article-tags">
                     {% for tag in article.get_tags%}
                     <a href="{% url 'tag-detail-view' tag %}">
-                        <span class="label label-vmaig-{{forloop.counter}} btn">{{tag}}</span>
+                        <button type="button" class="btn btn-outline-primary">{{tag}}</button>
                     </a>
                     {% endfor %}
                 </div>

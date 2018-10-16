@@ -90,47 +90,12 @@ footer {
     border-bottom:1px solid #eee;
 }
 
-/*标签样式*/
-.label-vmaig{
-    background-color:#D94600;
-}
-
-.label-vmaig{
-    background-color:#D94600;
-}
-
 /*按钮样式*/
 .btn-vmaig{
     color: #FFF;
     background-color: #D9534F;
     border-color: #D43F3A;
 }
-
-/*label样式*/
-.label-vmaig-1 {
-    background-color: #428bca;
-}
-
-.label-vmaig-2 {
-    background-color: #5cb85c;
-}
-
-.label-vmaig-3 {
-    background-color: #f0ad4e;
-}
-
-.label-vmaig-4 {
-    background-color: #5bc0de;
-}
-
-.label-vmaig-5 {
-    background-color: #d9534f;
-}
-
-.label-vmaig-6 {
-    background-color: #999;
-}
-
 
 /*警告框样式*/
 .alert-vmaig{
@@ -434,6 +399,7 @@ footer {
 /*首页右侧的 热门文章面板样式*/
 .hotest-post-title{
     display:inline-block;
+    overflow: hidden;
     width:80%;
     white-space:nowrap;
     text-overflow:ellipsis;

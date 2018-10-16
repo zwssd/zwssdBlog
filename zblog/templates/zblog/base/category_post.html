@@ -2,7 +2,7 @@
 {% url 'article-detail-view' post.en_title as article_url %}
 
 <div class="all-post clearfix underline">
-    <div class="post-title clearfix">
+    <div class="post-title card-header underline clearfix">
         <a href="{{category_url}}">
             <div class="pre-cat">
                 <div class="pre-catinner btn">
@@ -20,13 +20,13 @@
         <div class="post-tags">
             {% for tag in post.get_tags%}
             <a href="{% url 'tag-detail-view' tag %}">
-                <span class="label label-vmaig-{{forloop.counter}} btn">{{tag}}</span>
+                <button type="button" class="btn btn-outline-primary">{{tag}}</button>
             </a>
             {% endfor %}
         </div>
     </div>
     <div class="post-content ">
-        <div class="row">
+    <div class="mr-4">
             <div class="col-sm-4">
                 <figure class="thumbnail">
                     <a href="{{article_url}}">
@@ -44,19 +44,19 @@
                 {% endif %}
                 </p>
             </div>
-        </div>
     </div>
-    <div class="post-info hidden-xs">
+    </div>
+    <div class="post-info hidden-xs mr-4">
         <span>
-            <span class="glyphicon glyphicon-calendar"></span>
+            <i class="fas fa-calendar-alt"></i>
             {{post.pub_time|date:"Y-m-d" }}
         </span>
         <span>
-            <span class="glyphicon glyphicon-comment"></span>
+            <i class="fas fa-comment-alt"></i>
             {{post.comment_set.all | length}}
         </span>
         <span>
-            <span class="glyphicon glyphicon-eye-open"></span>
+            <i class="fas fa-eye"></i>
             {{post.view_times}}
         </span>
     </div>

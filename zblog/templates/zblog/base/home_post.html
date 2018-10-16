@@ -31,13 +31,9 @@
             <div class="post-tags">
                 {% for tag in post.get_tags%}
                 <a href="{% url 'tag-detail-view' tag%}" class="{%if forloop.counter0%}hidden-xs{%endif%} ">
-                    <span class="label label-vmaig-{{forloop.counter}} btn">{{tag}}</span>
+                    <button type="button" class="btn btn-outline-primary">{{tag}}</button>
                 </a>
                 {% endfor %}
-                <a class="visible-xs-inline-block">
-                    <span class="label label-vmaig-2 btn ">...</span>
-                </a>
-
             </div>
 
         </div>
